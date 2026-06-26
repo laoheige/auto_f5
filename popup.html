@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>防过期自动点击</title>
+  <title>防过期自动续期</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     body {
       width: 280px;
       padding: 16px;
@@ -18,22 +18,22 @@
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
     }
-    
+
     .header {
       text-align: center;
       margin-bottom: 16px;
     }
-    
+
     .header h1 {
       font-size: 18px;
       margin-bottom: 4px;
     }
-    
+
     .header p {
       font-size: 12px;
       opacity: 0.8;
     }
-    
+
     .status {
       background: rgba(255,255,255,0.2);
       border-radius: 8px;
@@ -41,7 +41,7 @@
       margin-bottom: 16px;
       text-align: center;
     }
-    
+
     .status-indicator {
       display: inline-block;
       width: 12px;
@@ -50,35 +50,35 @@
       margin-right: 8px;
       vertical-align: middle;
     }
-    
+
     .status-indicator.active {
       background: #4ade80;
       box-shadow: 0 0 10px #4ade80;
     }
-    
+
     .status-indicator.inactive {
       background: #ef4444;
     }
-    
+
     .control-group {
       background: rgba(255,255,255,0.2);
       border-radius: 8px;
       padding: 12px;
       margin-bottom: 12px;
     }
-    
+
     .control-group label {
       display: block;
       font-size: 13px;
       margin-bottom: 8px;
     }
-    
+
     .interval-control {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    
+
     .interval-control input {
       flex: 1;
       padding: 8px;
@@ -86,12 +86,34 @@
       border-radius: 4px;
       font-size: 14px;
       text-align: center;
+      outline: none;
     }
-    
+
     .interval-control span {
       font-size: 13px;
     }
-    
+
+    .range-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .range-row input {
+      width: 70px;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      text-align: center;
+      outline: none;
+    }
+
+    .range-row span {
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
     .toggle-btn {
       width: 100%;
       padding: 12px;
@@ -102,23 +124,23 @@
       cursor: pointer;
       transition: all 0.3s;
     }
-    
+
     .toggle-btn.start {
       background: #22c55e;
     }
-    
+
     .toggle-btn.start:hover {
       background: #16a34a;
     }
-    
+
     .toggle-btn.stop {
       background: #ef4444;
     }
-    
+
     .toggle-btn.stop:hover {
       background: #dc2626;
     }
-    
+
     .footer {
       text-align: center;
       font-size: 11px;
@@ -129,35 +151,40 @@
 </head>
 <body>
   <div class="header">
-    <h1>防过期自动点击</h1>
+    <h1>防过期自动续期</h1>
     <p>防止网页因长时间无操作而过期</p>
   </div>
-  
+
   <div class="status">
     <span id="statusIndicator" class="status-indicator inactive"></span>
     <span id="statusText">已停止</span>
   </div>
-  
+
   <div class="control-group">
-    <label>点击间隔（秒）</label>
+    <label>续期方式</label>
     <div class="interval-control">
-      <input type="number" id="intervalInput" min="1" max="300" value="10">
-      <span>秒</span>
-    </div>
-  </div>
-  
-  <div class="control-group">
-    <label>点击范围</label>
-    <div class="interval-control">
-      <select id="tabMode" style="flex:1; padding:8px; border:none; border-radius:4px; font-size:14px;">
-        <option value="current">当前标签页</option>
-        <option value="all">所有标签页</option>
+      <select id="modeSelect" style="flex:1; padding:8px; border:none; border-radius:4px; font-size:14px;">
+        <option value="reload" selected>F5刷新页面</option>
+        <option value="click">点击 [name="refresh"]</option>
       </select>
     </div>
   </div>
-  
+
+  <div class="control-group">
+    <label>续期间隔（秒）</label>
+    <div class="range-row">
+      <input type="number" id="minInterval" min="5" max="3600" value="30">
+      <span>—</span>
+      <input type="number" id="maxInterval" min="5" max="3600" value="120">
+      <span>秒</span>
+    </div>
+    <div style="font-size:11px; opacity:0.7; margin-top:6px;">
+      每次操作间隔在范围内随机，避免被风控
+    </div>
+  </div>
+
   <button id="toggleBtn" class="toggle-btn start">启动</button>
-  
+
   <div class="control-group" style="margin-top: 12px;">
     <label>运行统计</label>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
@@ -168,11 +195,11 @@
       <button id="resetBtn" style="padding: 4px 8px; border: none; border-radius: 4px; background: rgba(255,255,255,0.3); color: white; cursor: pointer; font-size: 12px;">重置</button>
     </div>
   </div>
-  
+
   <div class="footer">
-    点击页面空白处，模拟用户操作
+    定时点击续期按钮，防止会话过期
   </div>
-  
+
   <script src="popup.js"></script>
 </body>
 </html>

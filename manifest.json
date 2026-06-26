@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "防过期自动点击",
-  "version": "1.0.0",
-  "description": "每10秒自动点击页面，防止页面过期",
-  "permissions": ["activeTab", "storage"],
+  "name": "防过期自动刷新",
+  "version": "1.1.0",
+  "description": "定时自动刷新页面，防止网页会话过期，支持随机间隔防风控",
+  "permissions": ["activeTab", "storage", "alarms"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon.png"

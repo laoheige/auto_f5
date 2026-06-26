@@ -1,19 +1,22 @@
 const toggleBtn = document.getElementById('toggleBtn');
 const statusIndicator = document.getElementById('statusIndicator');
 const statusText = document.getElementById('statusText');
-const intervalInput = document.getElementById('intervalInput');
+const minIntervalInput = document.getElementById('minInterval');
+const maxIntervalInput = document.getElementById('maxInterval');
 const clickCountDisplay = document.getElementById('clickCountDisplay');
 const runTimeDisplay = document.getElementById('runTimeDisplay');
 const resetBtn = document.getElementById('resetBtn');
-const tabModeSelect = document.getElementById('tabMode');
+const modeSelect = document.getElementById('modeSelect');
 
 let isEnabled = false;
+let currentMode = 'reload';
 let runTimer = null;
 let startTime = 0;
 let refreshTimer = null;
 
 function updateCountDisplay(count) {
-  clickCountDisplay.textContent = `已点击 ${count} 次`;
+  const label = currentMode === 'reload' ? '刷新' : '点击';
+  clickCountDisplay.textContent = `已${label} ${count} 次`;
 }
 
 function formatTime(seconds) {
@@ -84,14 +87,26 @@ toggleBtn.addEventListener('click', () => {
   });
 });
 
-intervalInput.addEventListener('change', () => {
-  const interval = parseInt(intervalInput.value) || 10;
-  chrome.runtime.sendMessage({ action: 'setInterval', interval });
-});
+function saveInterval() {
+  const min = parseInt(minIntervalInput.value) || 30;
+  const max = parseInt(maxIntervalInput.value) || 120;
+  if (min > max) {
+    maxIntervalInput.value = min;
+  }
+  chrome.runtime.sendMessage({
+    action: 'setInterval',
+    minInterval: Math.min(min, parseInt(maxIntervalInput.value) || max),
+    maxInterval: Math.max(parseInt(maxIntervalInput.value) || max, min)
+  });
+}
 
-tabModeSelect.addEventListener('change', () => {
-  const tabMode = tabModeSelect.value;
-  chrome.runtime.sendMessage({ action: 'setTabMode', tabMode });
+minIntervalInput.addEventListener('change', saveInterval);
+maxIntervalInput.addEventListener('change', saveInterval);
+
+modeSelect.addEventListener('change', () => {
+  currentMode = modeSelect.value;
+  chrome.runtime.sendMessage({ action: 'setMode', mode: currentMode });
+  updateCountDisplay(0);
 });
 
 resetBtn.addEventListener('click', () => {
@@ -114,9 +129,12 @@ resetBtn.addEventListener('click', () => {
 chrome.runtime.sendMessage({ action: 'getStatus' }, (response) => {
   if (response) {
     isEnabled = response.isEnabled;
-    intervalInput.value = response.interval || 10;
-    tabModeSelect.value = response.tabMode || 'current';
+    minIntervalInput.value = response.minInterval || 30;
+    maxIntervalInput.value = response.maxInterval || 120;
+    currentMode = response.mode || 'reload';
+    modeSelect.value = currentMode;
     updateUI();
+    updateCountDisplay(0);
     if (isEnabled) {
       startRunTimer();
     }
