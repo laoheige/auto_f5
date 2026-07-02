@@ -12,10 +12,10 @@
     }
 
     body {
-      width: 280px;
+      width: 380px;
       padding: 16px;
-      font-family: 'Microsoft YaHei', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+      background: linear-gradient(135deg, #008040 0%, #004d26 100%);
       color: white;
     }
 
@@ -32,6 +32,43 @@
     .header p {
       font-size: 12px;
       opacity: 0.8;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .card-title .arrow {
+      font-size: 10px;
+      transition: transform 0.2s;
+    }
+
+    .card-title .arrow.collapsed {
+      transform: rotate(-90deg);
+    }
+
+    .card-body {
+      overflow: hidden;
+      transition: max-height 0.3s;
+    }
+
+    .card-body.collapsed {
+      max-height: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
     }
 
     .status {
@@ -60,58 +97,87 @@
       background: #ef4444;
     }
 
-    .control-group {
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 12px;
-    }
-
-    .control-group label {
-      display: block;
-      font-size: 13px;
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       margin-bottom: 8px;
     }
 
-    .interval-control {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .row:last-child {
+      margin-bottom: 0;
     }
 
-    .interval-control input {
+    .row label {
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select {
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input[type="number"],
+    input[type="text"] {
       flex: 1;
-      padding: 8px;
-      border: none;
-      border-radius: 4px;
-      font-size: 14px;
-      text-align: center;
-      outline: none;
+      min-width: 0;
     }
 
-    .interval-control span {
-      font-size: 13px;
-    }
-
-    .range-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .range-row input {
+    .input-sm {
       width: 70px;
-      padding: 8px;
-      border: none;
-      border-radius: 4px;
-      font-size: 14px;
-      text-align: center;
-      outline: none;
+      flex: none !important;
     }
 
-    .range-row span {
+    .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 4px;
       font-size: 13px;
-      opacity: 0.8;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .btn-primary {
+      background: #22c55e;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #16a34a;
+    }
+
+    .btn-danger {
+      background: rgba(239,68,68,0.5);
+      color: white;
+      padding: 2px 8px;
+      font-size: 12px;
+    }
+
+    .btn-danger:hover {
+      background: rgba(239,68,68,0.8);
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .btn-sm {
+      padding: 4px 10px;
+      font-size: 12px;
     }
 
     .toggle-btn {
@@ -127,6 +193,7 @@
 
     .toggle-btn.start {
       background: #22c55e;
+      color: white;
     }
 
     .toggle-btn.start:hover {
@@ -135,10 +202,103 @@
 
     .toggle-btn.stop {
       background: #ef4444;
+      color: white;
     }
 
     .toggle-btn.stop:hover {
       background: #dc2626;
+    }
+
+    .tag-list {
+      margin-top: 6px;
+    }
+
+    .tag-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.15);
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      font-size: 12px;
+      word-break: break-all;
+    }
+
+    .tag-item .tag-label {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tag-item .tag-badge {
+      font-size: 10px;
+      opacity: 0.7;
+      margin-left: 6px;
+      flex-shrink: 0;
+    }
+
+    .tab-list {
+      max-height: 160px;
+      overflow-y: auto;
+      margin-top: 6px;
+    }
+
+    .tab-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      padding: 4px 0;
+      font-size: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .tab-item:last-child {
+      border-bottom: none;
+    }
+
+    .tab-item input[type="checkbox"] {
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .tab-item .tab-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tab-item .tab-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tab-item .tab-url {
+      font-size: 11px;
+      opacity: 0.6;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tab-item .tab-index {
+      font-size: 11px;
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+
+    .empty-hint {
+      font-size: 12px;
+      opacity: 0.6;
+      font-style: italic;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      cursor: pointer;
     }
 
     .footer {
@@ -146,6 +306,24 @@
       font-size: 11px;
       opacity: 0.7;
       margin-top: 12px;
+    }
+
+    .hint {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+
+    /* stats section */
+    .stats-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .stats-row:last-child {
+      margin-bottom: 0;
     }
   </style>
 </head>
@@ -160,9 +338,9 @@
     <span id="statusText">已停止</span>
   </div>
 
-  <div class="control-group">
+  <div class="card">
     <label>续期方式</label>
-    <div class="interval-control">
+    <div class="row" style="margin-top:6px;">
       <select id="modeSelect" style="flex:1; padding:8px; border:none; border-radius:4px; font-size:14px;">
         <option value="reload" selected>F5刷新页面</option>
         <option value="click">点击 [name="refresh"]</option>
@@ -170,29 +348,83 @@
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="card">
     <label>续期间隔（秒）</label>
-    <div class="range-row">
-      <input type="number" id="minInterval" min="5" max="3600" value="30">
-      <span>—</span>
-      <input type="number" id="maxInterval" min="5" max="3600" value="120">
-      <span>秒</span>
+    <div class="row" style="margin-top:6px;">
+      <input type="number" id="minInterval" class="input-sm" min="5" max="3600" value="30">
+      <span style="font-size:13px; opacity:0.8;">—</span>
+      <input type="number" id="maxInterval" class="input-sm" min="5" max="3600" value="120">
+      <span style="font-size:13px; opacity:0.8;">秒</span>
     </div>
-    <div style="font-size:11px; opacity:0.7; margin-top:6px;">
-      每次操作间隔在范围内随机，避免被风控
+    <div class="hint">每次操作间隔在范围内随机，避免被风控</div>
+  </div>
+
+  <!-- ===== 目标标签页配置 ===== -->
+  <div class="card">
+    <div class="card-title" id="targetToggle">
+      <span class="arrow" id="targetArrow">▼</span>
+      目标标签页
+      <span style="font-size:11px; opacity:0.6; font-weight:normal;" id="targetSummary">未配置</span>
+    </div>
+    <div class="card-body" id="targetBody">
+
+      <!-- 子区域 A: URL 模式匹配 -->
+      <div style="margin-bottom:12px;">
+        <div style="font-size:12px; font-weight:600; margin-bottom:6px;">① URL 模式匹配</div>
+        <div class="row">
+          <input type="text" id="urlPatternInput" placeholder="例: https://example.com/*" style="flex:1;">
+        </div>
+        <div class="row" style="margin-bottom:6px;">
+          <label class="checkbox-label">
+            <input type="checkbox" id="exactMatchCheck">
+            完整匹配
+          </label>
+          <button class="btn btn-primary btn-sm" id="addUrlPatternBtn">添加</button>
+        </div>
+        <div class="tag-list" id="urlPatternList"></div>
+        <div class="hint">通配符 <code style="opacity:0.9;">*</code> 匹配任意字符</div>
+      </div>
+
+      <div style="height:1px; background:rgba(255,255,255,0.15); margin:12px 0;"></div>
+
+      <!-- 子区域 B: 选取当前标签页 -->
+      <div style="margin-bottom:12px;">
+        <div style="font-size:12px; font-weight:600; margin-bottom:6px;">② 选取当前标签页</div>
+        <div style="margin-bottom:6px;">
+          <button class="btn btn-ghost btn-sm" id="refreshTabListBtn">⟳ 刷新列表</button>
+        </div>
+        <div class="tab-list" id="tabCheckList">
+          <div class="empty-hint">点击"刷新列表"加载打开的标签页</div>
+        </div>
+      </div>
+
+      <div style="height:1px; background:rgba(255,255,255,0.15); margin:12px 0;"></div>
+
+      <!-- 子区域 C: 固定索引 -->
+      <div>
+        <div style="font-size:12px; font-weight:600; margin-bottom:6px;">③ 固定索引</div>
+        <div class="row">
+          <input type="number" id="tabIndexInput" class="input-sm" min="1" max="99" value="1" placeholder="序号">
+          <span style="font-size:13px; opacity:0.8;">（从 1 开始）</span>
+          <button class="btn btn-primary btn-sm" id="addTabIndexBtn">添加</button>
+        </div>
+        <div class="tag-list" id="tabIndexList"></div>
+        <div class="hint">按标签页从左到右的位置编号</div>
+      </div>
+
     </div>
   </div>
 
   <button id="toggleBtn" class="toggle-btn start">启动</button>
 
-  <div class="control-group" style="margin-top: 12px;">
+  <div class="card" style="margin-top: 12px;">
     <label>运行统计</label>
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-      <span id="clickCountDisplay">已点击 0 次</span>
+    <div class="stats-row" style="margin-top:6px;">
+      <span id="clickCountDisplay">已刷新 0 次</span>
       <span id="runTimeDisplay">运行 0秒</span>
     </div>
     <div style="text-align: right;">
-      <button id="resetBtn" style="padding: 4px 8px; border: none; border-radius: 4px; background: rgba(255,255,255,0.3); color: white; cursor: pointer; font-size: 12px;">重置</button>
+      <button id="resetBtn" class="btn btn-ghost btn-sm">重置</button>
     </div>
   </div>
 

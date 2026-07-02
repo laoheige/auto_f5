@@ -3,7 +3,7 @@
   "name": "防过期自动刷新",
   "version": "1.1.0",
   "description": "定时自动刷新页面，防止网页会话过期，支持随机间隔防风控",
-  "permissions": ["activeTab", "storage", "alarms"],
+  "permissions": ["activeTab", "storage", "alarms", "tabs"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon.png"
