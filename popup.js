@@ -1,4 +1,4 @@
-const toggleBtn = document.getElementById('toggleBtn');
+﻿const toggleBtn = document.getElementById('toggleBtn');
 const statusIndicator = document.getElementById('statusIndicator');
 const statusText = document.getElementById('statusText');
 const minIntervalInput = document.getElementById('minInterval');
@@ -158,13 +158,14 @@ chrome.runtime.sendMessage({ action: 'getStatus' }, (response) => {
     currentMode = response.mode || 'reload';
     modeSelect.value = currentMode;
     updateUI();
-    updateCountDisplay(0);
     if (isEnabled) {
       startRunTimer();
     }
+    // 不再在这里调用 updateCountDisplay(0)，统一由 refreshCount() 在下方获取真实计数
   }
 });
 
+// refreshCount 已在下方调用，无需在 getStatus 回调中重复设置计数显示
 refreshCount();
 refreshTimer = setInterval(refreshCount, 1000);
 

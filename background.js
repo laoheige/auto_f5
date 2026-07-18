@@ -1,4 +1,4 @@
-let localCount = 0;
+﻿let localCount = 0;
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({
@@ -89,11 +89,14 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         }
       });
     });
+    // 将 scheduleNext 移到回调内部，避免时序竞争
+    scheduleNext();
   });
-  scheduleNext();
 });
 
 // ===== 消息处理 =====
+// 注意：同步响应的不返回 true，避免 Chrome 重复触发 sendResponse
+// 只有异步（在回调中调用 sendResponse）的才返回 true
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'toggle') {
@@ -103,30 +106,30 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       else stopAuto();
       sendResponse({ isEnabled: newState });
     });
-    return true;
+    return true; // 异步
   } else if (request.action === 'getStatus') {
     chrome.storage.local.get(['isEnabled', 'minInterval', 'maxInterval', 'mode'], (result) => {
       sendResponse(result);
     });
-    return true;
+    return true; // 异步
   } else if (request.action === 'setInterval') {
     chrome.storage.local.set({ minInterval: request.minInterval, maxInterval: request.maxInterval });
     sendResponse({ success: true });
-    return true;
+    // 同步响应，不返回 true
   } else if (request.action === 'setMode') {
     chrome.storage.local.set({ mode: request.mode });
     sendResponse({ success: true });
-    return true;
+    // 同步响应，不返回 true
   } else if (request.action === 'getCount') {
     chrome.storage.local.get(['clickCount'], (result) => {
       sendResponse({ clickCount: result.clickCount || 0 });
     });
-    return true;
+    return true; // 异步
   } else if (request.action === 'resetCount') {
     localCount = 0;
     chrome.storage.local.set({ clickCount: 0 });
     sendResponse({ success: true });
-    return true;
+    // 同步响应，不返回 true
 
   // ===== 目标配置相关 =====
   } else if (request.action === 'getAllTabs') {
@@ -139,15 +142,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }));
       sendResponse({ tabs: tabList });
     });
-    return true;
+    return true; // 异步
   } else if (request.action === 'saveTargets') {
     chrome.storage.local.set({ targets: request.targets });
     sendResponse({ success: true });
-    return true;
+    // 同步响应，不返回 true
   } else if (request.action === 'loadTargets') {
     chrome.storage.local.get(['targets'], (result) => {
       sendResponse({ targets: result.targets || { urlPatterns: [], selectedUrls: [], tabIndexes: [] } });
     });
-    return true;
+    return true; // 异步
   }
 });
